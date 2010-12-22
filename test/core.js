@@ -811,7 +811,6 @@ test("jQuery.each(Object,Function)", function() {
 
 test("jQuery.makeArray", function(){
 	expect(17);
-
 	equals( jQuery.makeArray(jQuery('html>*'))[0].nodeName.toUpperCase(), "HEAD", "Pass makeArray a jQuery object" );
 
 	equals( jQuery.makeArray(document.getElementsByName("PWD")).slice(0,1)[0].name, "PWD", "Pass makeArray a nodelist" );
