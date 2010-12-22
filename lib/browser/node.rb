@@ -33,7 +33,7 @@ module Browser
     end
     
     def parentNode
-      HTMLElement.new_from_native(native_node.parent)
+      native_node.parent && HTMLElement.new_from_native(native_node.parent)
     end
     
     # TODO Should return comment node?

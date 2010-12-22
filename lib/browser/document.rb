@@ -2,8 +2,13 @@ module Browser
   module Document
     include Node
     
+    def initialize(native_node)
+      @native_node = native_node
+      native_node.__browser_node = self
+    end
+    
     def getElementsByTagName(tag_name)
-      NodeList.new(@native_node.css(tagName).map{ |e| HTMLElement.new_from_native(e) })
+      NodeList.new(@native_node.css(tag_name).map{ |e| HTMLElement.new_from_native(e) })
     end
     
     def createElement(tag_name)
@@ -18,12 +23,22 @@ module Browser
       Comment.new(self, comment)
     end
     
+    def createTextNode(text)
+      Comment.new(self, text)
+    end
+    
+    def createDocumentFragment
+      Browser.js_function_with_no_args do
+        DocumentFragment.new(self)
+      end
+    end
+    
     def nodeType
       9
     end
     
     def nodeName
-      '#comment'
+      '#document'
     end
     
     # Not standard, but widely implemented

@@ -1,7 +1,3 @@
-class Nokogiri::XML::Element
-  attr_accessor :__browser_element
-end
-
 module Browser
   class HTMLElement
     include Element
@@ -10,12 +6,33 @@ module Browser
     
     class << self
       def new_from_native(native_node)
-        eval("HTML#{native_node.name.capitalize}Element").new(native_node)
+        name = native_node.name.capitalize
+        name = case name
+          when 'A', 'Body', 'Button', 'Code', 'Div', 'Dl', 'Form', 'Head', 'Html', 'Iframe', 'Input',
+            'Label', 'Li', 'Link', 'Object', 'Ol', 'Optgroup', 'Option', 'P', 'Param', 'Script',
+            'Select', 'Span', 'Strong', 'Table', 'Text', 'Textarea', 'Tr', 'B', 'Th', 'Td', 'Pre', 'Ins',
+            'Del', 'Br', 'Em', 'Ul'
+            name
+          when 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'
+            'Heading'
+          else
+            ''
+        end
+        
+        begin
+          eval("HTML#{name}Element").new(native_node)
+        rescue NameError => e
+          eval(<<-EOS
+            class ::Browser::HTML#{name}Element < ::Browser::HTMLElement
+            end
+          EOS
+          )
+          retry
+        end
       end
     end
   
     def initialize(native_node)
-      native_node.__browser_element = self
       @native_node = native_node
     end
   
