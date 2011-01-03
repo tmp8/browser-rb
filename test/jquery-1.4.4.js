@@ -5958,6 +5958,8 @@ jQuery.extend({
 		}
 
 		// Wait for a response to come back
+		//xhr.foo(1);
+    //console.debug('--------------------------')
 		var onreadystatechange = xhr.onreadystatechange = function( isTimeout ) {
 			// The request was aborted
 			if ( !xhr || xhr.readyState === 0 || isTimeout === "abort" ) {
@@ -6023,6 +6025,8 @@ jQuery.extend({
 				}
 			}
 		};
+
+    console.debug('+++++++++++++++++++++++++');
 
 		// Override the abort handler, if we can (IE 6 doesn't allow it, but that's OK)
 		// Opera doesn't fire onreadystatechange at all on abort
