@@ -55,10 +55,10 @@ test("jQuery()", function() {
 	var img = jQuery("<img/>");
 	equals( img.length, 1, "Correct number of elements generated for img" );
 	equals( img.parent().length, 0, "Make sure that the generated HTML has no parent." );
+  console.debug('test')
 	var div = jQuery("<div/><hr/><code/><b/>");
 	equals( div.length, 4, "Correct number of elements generated for div hr code b" );
 	equals( div.parent().length, 0, "Make sure that the generated HTML has no parent." );
-
 	equals( jQuery([1,2,3]).get(1), 2, "Test passing an array to the factory" );
 
 	equals( jQuery(document.body).get(0), jQuery('body').get(0), "Test passing an html node to the factory" );
@@ -73,6 +73,8 @@ test("jQuery()", function() {
 		"class": "test2",
 		id: "test3"
 	});
+
+  console.debug(elem[0].childNodes)
 
 	equals( elem[0].style.width, '10px', 'jQuery() quick setter width');
 	equals( elem[0].style.paddingLeft, '1px', 'jQuery quick setter css');

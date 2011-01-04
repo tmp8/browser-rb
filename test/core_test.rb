@@ -9,7 +9,7 @@ server = WEBrick::HTTPServer.new(
 )
 
 %w(INT).each do |signal|
-   trap(signal) { server.shutdown }
+   trap(signal) { server.shutdown && exit }
 end
 
 Thread.new do

@@ -27,12 +27,6 @@ module Browser
       Comment.new(self, text)
     end
     
-    def createDocumentFragment
-      Browser.js_function_with_no_args do
-        DocumentFragment.new(self)
-      end
-    end
-    
     def nodeType
       9
     end

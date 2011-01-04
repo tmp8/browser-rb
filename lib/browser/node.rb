@@ -25,7 +25,11 @@ module Browser
     end
     
     def firstChild
-      native_node.first_element_child && HTMLElement.new_from_native(native_node.first_element_child)
+      native_node.children.first && HTMLElement.new_from_native(native_node.children.first)
+    end
+    
+    def lastChild
+      native_node.children.last && HTMLElement.new_from_native(native_node.children.last)
     end
     
     def removeChild(node)
@@ -34,6 +38,15 @@ module Browser
     
     def parentNode
       native_node.parent && HTMLElement.new_from_native(native_node.parent)
+    end
+    
+    def cloneNode(deep = false)
+      HTMLElement.new_from_native(native_node.dup(deep ? 1 : 0))
+    end
+    
+    #TODO should be live!
+    def childNodes
+      NodeList.new(native_node.children.map { |child| HTMLElement.new_from_native(child) })
     end
     
     # TODO Should return comment node?
@@ -55,6 +68,12 @@ module Browser
     
     def setAttribute(name, value)
       native_node[name] = value
+    end
+    
+    def createDocumentFragment
+      Browser.js_function_with_no_args do
+        DocumentFragment.new(self)
+      end
     end
   end
 end

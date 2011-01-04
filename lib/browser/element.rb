@@ -18,14 +18,12 @@ module Browser
       native_node.name
     end
     
-    def createDocumentFragment
-      Browser.js_function_with_no_args do
-        native_node.document.__browser_node.createDocumentFragment
-      end
-    end
-    
     def createElement(tag_name)
       native_node.document.__browser_node.createElement(tag_name)
+    end
+    
+    def getAttribute(name)
+      native_node.attribute(name).content
     end
   end
 end
