@@ -3,7 +3,7 @@ module Browser
     include Node
     
     def getElementsByTagName(tag_name)
-      NodeList.new(native_node.css(tag_name).map{ |e| HTMLElement.new_from_native(e) })
+      NodeList.new(native_node.css(tag_name).map{ |e| Browser.wrap_node(e) })
     end
     
     def nodeType

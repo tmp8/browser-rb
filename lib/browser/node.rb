@@ -1,6 +1,7 @@
 module Browser
   module Node
     include EventTarget
+    include EventListener
     
     def native_node
       @native_node
@@ -25,11 +26,11 @@ module Browser
     end
     
     def firstChild
-      native_node.children.first && HTMLElement.new_from_native(native_node.children.first)
+      native_node.children.first && Browser.wrap_node(native_node.children.first)
     end
     
     def lastChild
-      native_node.children.last && HTMLElement.new_from_native(native_node.children.last)
+      native_node.children.last && Browser.wrap_node(native_node.children.last)
     end
     
     def removeChild(node)
@@ -37,21 +38,26 @@ module Browser
     end
     
     def parentNode
-      native_node.parent && HTMLElement.new_from_native(native_node.parent)
+      native_node.parent && Browser.wrap_node(native_node.parent)
     end
     
     def cloneNode(deep = false)
-      HTMLElement.new_from_native(native_node.dup(deep ? 1 : 0))
+      Browser.wrap_node(native_node.dup(deep ? 1 : 0))
     end
     
     #TODO should be live!
     def childNodes
-      NodeList.new(native_node.children.map { |child| HTMLElement.new_from_native(child) })
+      NodeList.new(
+        native_node.children.map do |child|
+          next if child.is_a? Nokogiri::XML::ProcessingInstruction
+          Browser.wrap_node(child)
+        end.compact
+      )
     end
     
     # TODO Should return comment node?
     def nextSibling
-      native_node.next_sibling && HTMLElement.new_from_native(native_node.next_sibling)
+      native_node.next_sibling && Browser.wrap_node(native_node.next_sibling)
     end
     
     def name
@@ -72,8 +78,12 @@ module Browser
     
     def createDocumentFragment
       Browser.js_function_with_no_args do
-        DocumentFragment.new(self)
+        DocumentFragment.new(native_node)
       end
+    end
+    
+    def ownerDocument
+      Browser.wrap_node(native_node.document)
     end
   end
 end

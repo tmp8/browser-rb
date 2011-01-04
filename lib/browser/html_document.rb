@@ -4,11 +4,11 @@ module Browser
     
     def getElementById(id)
       element = @native_node.css("##{id}").first
-      element && HTMLElement.new_from_native(element)
+      element && Browser.wrap_node(element)
     end
     
     def body
-      HTMLElement.new_from_native(@native_node.css('body').first)
+      Browser.wrap_node(@native_node.css('body').first)
     end
   end
 end

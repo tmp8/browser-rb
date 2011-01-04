@@ -2,8 +2,8 @@ module Browser
   class Comment
     include CharacterData
     
-    def initialize(document, comment)
-      @native_node = Nokogiri::XML::Comment.new(document.native_node, comment)
+    def initialize(native_node)
+      @native_node = native_node
     end
     
     def nodeType

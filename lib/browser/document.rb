@@ -8,23 +8,23 @@ module Browser
     end
     
     def getElementsByTagName(tag_name)
-      NodeList.new(@native_node.css(tag_name).map{ |e| HTMLElement.new_from_native(e) })
+      NodeList.new(@native_node.css(tag_name).map{ |e| Browser.wrap_node(e) })
     end
     
     def createElement(tag_name)
-      HTMLElement.new_from_native(@native_node.create_element(tag_name))
+      Browser.wrap_node(@native_node.create_element(tag_name))
     end
     
     def documentElement
-      HTMLElement.new_from_native(@native_node.css('html').first)
+      Browser.wrap_node(@native_node.css('html').first)
     end
     
     def createComment(comment)
-      Comment.new(self, comment)
+      Browser.wrap_node(Nokogiri::XML::Comment.new(native_node, comment))
     end
     
     def createTextNode(text)
-      Comment.new(self, text)
+      Browser.wrap_node(Nokogiri::XML::Text.new(text, native_node))
     end
     
     def nodeType
@@ -38,6 +38,16 @@ module Browser
     # Not standard, but widely implemented
     def tagName
       ''
+    end
+    
+    # returns nil because documents have no parent
+    def parentNode
+      nil
+    end
+    
+    # returns nil because documents have no owner
+    def ownerDocument
+      nil
     end
   end
 end
