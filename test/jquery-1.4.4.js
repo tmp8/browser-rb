@@ -5958,8 +5958,6 @@ jQuery.extend({
 		}
 
 		// Wait for a response to come back
-		//xhr.foo(1);
-    //console.debug('--------------------------')
 		var onreadystatechange = xhr.onreadystatechange = function( isTimeout ) {
 			// The request was aborted
 			if ( !xhr || xhr.readyState === 0 || isTimeout === "abort" ) {
@@ -5988,7 +5986,6 @@ jQuery.extend({
 							"success";
 
 				var errMsg;
-
 				if ( status === "success" ) {
 					// Watch for, and catch, XML document parse errors
 					try {
@@ -5999,7 +5996,6 @@ jQuery.extend({
 						errMsg = parserError;
 					}
 				}
-
 				// Make sure that the request was successful or notmodified
 				if ( status === "success" || status === "notmodified" ) {
 					// JSONP handles its own success callback
@@ -6025,9 +6021,6 @@ jQuery.extend({
 				}
 			}
 		};
-
-    console.debug('+++++++++++++++++++++++++');
-
 		// Override the abort handler, if we can (IE 6 doesn't allow it, but that's OK)
 		// Opera doesn't fire onreadystatechange at all on abort
 		try {
@@ -6069,7 +6062,6 @@ jQuery.extend({
 		if ( !s.async ) {
 			onreadystatechange();
 		}
-
 		// return XMLHttpRequest to allow aborting the request etc.
 		return xhr;
 	},

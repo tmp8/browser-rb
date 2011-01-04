@@ -2,6 +2,7 @@ require 'rubygems'
 require 'nokogiri'
 require 'v8'
 require 'curl'
+require 'uri'
 
 module Browser
   

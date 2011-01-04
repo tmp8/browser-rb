@@ -2,7 +2,7 @@
 
 require File.dirname(__FILE__) + '/../lib/browser'
 
-browser = Browser::Window.open('core_test.html')
+browser = Browser::Window.new('core_test.html')
 
 V8::Context.new(:with => browser) do |js|
   
