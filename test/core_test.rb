@@ -1,8 +1,24 @@
 # encoding: UTF-8
 
+require 'webrick'
+
+server = WEBrick::HTTPServer.new(
+  :BindAddress     =>    "localhost",
+  :Port            =>    9090,
+  :DocumentRoot    =>    File.dirname(__FILE__)
+)
+
+%w(INT).each do |signal|
+   trap(signal) { server.shutdown }
+end
+
+Thread.new do
+  server.start
+end
+
 require File.dirname(__FILE__) + '/../lib/browser'
 
-browser = Browser::Window.new('core_test.html')
+browser = Browser::Window.new('http://localhost:9090/core_test.html')
 
 V8::Context.new(:with => browser) do |js|
   
